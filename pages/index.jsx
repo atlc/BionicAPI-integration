@@ -49,7 +49,7 @@ export default function Home() {
             <main className={styles.main}>
                 <h1 className={styles.title}>Testing out some text comparisons!</h1>
 
-                <textarea cols={80} rows={10} value={inputText} onChange={handleUpdate}></textarea>
+                <textarea cols={45} rows={10} value={inputText} onChange={handleUpdate}></textarea>
                 <button onClick={handleButtonClick}>See new text</button>
 
                 <div className={styles.grid}>
