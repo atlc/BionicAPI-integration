@@ -2,6 +2,13 @@
   padding: 0 2rem;
 }
 
+.border {
+  padding: 10px;
+}
+
+
+
+
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -66,12 +73,14 @@
 }
 
 .grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
+
 
 .card {
   margin: 1rem;
@@ -110,7 +119,12 @@
 
 @media (max-width: 600px) {
   .grid {
-    width: 100%;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    align-items: center;
+    justify-content: center;
+    margin-left: 10%;
+    margin-right: 10%;
   }
 }
+
