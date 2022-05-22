@@ -5,6 +5,9 @@ import { SpinnerDotted } from "spinners-react";
 
 export default function Home() {
     const [text, setText] = useState("");
+    const [inputText, setInputText] = useState(
+        `Hello friends from Facebook! Here I am typing out a bunch of verbose text so I can test out their API and just to see what this looks like on some sample text. I think I'll really enjoy integrating this into some of my other projects so that I can have better accessibility for this. Dang, I sure feel like a kid again, trying to fill up a word count for some kind of essay or research paper I'm writing. I think I'll have some pizza for dinner. Bottom text`
+    );
 
     useEffect(() => {
         document.body.style.backgroundColor = "#f8f9fa";
@@ -14,6 +17,26 @@ export default function Home() {
             .then(data => setText([data.text]))
             .catch(these_hands => console.error(these_hands));
     }, []);
+
+    const handleButtonClick = () => {
+        if (!inputText) return;
+
+        setText("");
+
+        fetch("/api/bionic", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ inputText })
+        })
+            .then(res => res.json())
+            .then(data => setText([data.text]))
+            .catch(these_hands => console.error(these_hands));
+    };
+
+    const handleUpdate = e => {
+        setInputText(e.target.value);
+        setText("Please click the button when you'd like to see the new text rendered");
+    };
 
     return (
         <div className={styles.container}>
@@ -26,18 +49,17 @@ export default function Home() {
             <main className={styles.main}>
                 <h1 className={styles.title}>Testing out some text comparisons!</h1>
 
+                <textarea cols={80} rows={10} value={inputText} onChange={handleUpdate}></textarea>
+                <button onClick={handleButtonClick}>See new text</button>
+
                 <div className={styles.grid}>
                     <div className={styles.border}>
-                        <p>
-                            Hello friends from Facebook! Here I am typing out a bunch of verbose text so I can test out their API and just to see what this looks like on some sample text. I think I'll
-                            really enjoy integrating this into some of my other projects so that I can have better accessibility for this. Dang, I sure feel like a kid again, trying to fill up a word
-                            count for some kind of essay or research paper I'm writing. I think I'll have some pizza for dinner. Bottom text
-                        </p>
+                        <p>{inputText}</p>
                     </div>
 
                     <div style={{ justifyContent: "center", textAlign: "center" }} className={styles.border}>
                         {!text && <p className={styles.description}>"Currently loading text from BionicAPI!"</p>}
-                        {!text && <SpinnerDotted size={100} thickness={100} speed={100} color="rgba(172, 57, 118, 1)" />}
+                        {!text && <SpinnerDotted size={125} thickness={100} speed={100} color="rgba(172, 57, 118, 1)" />}
                         {text && <p dangerouslySetInnerHTML={{ __html: text }}></p>}
                     </div>
                 </div>
